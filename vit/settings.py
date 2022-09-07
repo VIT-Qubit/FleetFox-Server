@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-4!akk)tfqclcn#%n#k)e0!d6)65p&)4ws1$zu%p0@_5=v3!yeo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*','172.16.42.37:8000','172.16.43.26:8000']
 
 
 # Application definition
@@ -84,13 +84,17 @@ WSGI_APPLICATION = 'vit.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST':'localhost',
-        'USER':'postgres',
-        'NAME':'vit',
-        'PORT':5432,
-        'PASSWORD':''
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'HOST':'localhost',
+    #     'USER':'postgres',
+    #     'NAME':'vit',
+    #     'PORT':5432,
+    #     'PASSWORD':''
+    # }
+    'default' : {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3'
     }
 }
 
