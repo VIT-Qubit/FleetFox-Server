@@ -61,6 +61,18 @@ class AssignWorker(APIView):
 
 
 
+class GetCustomerTickets(APIView):
+
+	def get(self,request,format=None):
+
+		cutomer_tickets=CustomerTicket.objects.filter(service_date=get_current_date())
+		customer_ticket_serializer=CustomerTicketSerializer(customer_tickets,many=True)
+
+		return Response({
+			"data":customer_ticket_serializer.data
+			},status=status.HTTP_200_OK)
+
+
 
 class GetWorkerLocationData(APIView):
 
@@ -86,12 +98,4 @@ class GetWorkerLocationData(APIView):
 			"data":worker_location_serializer.data
 			},status=status.HTTP_200_OK)
 
-class SampleSms(APIView):
-
-	def get(self,request,format=None):
-
-		s=send_sms()
-		return Response({
-			"data":s
-			},status=status.HTTP_200_OK)
 

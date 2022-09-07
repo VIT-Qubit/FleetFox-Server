@@ -61,5 +61,9 @@ class CustomerTicket(models.Model):
 	datetime=models.DateTimeField(auto_now_add=True)
 	service_date=models.DateField(null=True,blank=True)
 	json=models.JSONField(null=True,blank=True)
+	started=models.BooleanField(default=False)
+	start_time=models.TimeField(null=True,blank=True)
+	ended=models.BooleanField(default=False)
+	end_time=models.TimeField(null=True,blank=True)
 
 

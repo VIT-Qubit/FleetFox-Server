@@ -12,6 +12,51 @@ import datetime
 
 
 
+class UpdateStatus(APIView):
+	authentication_classes=[WorkerAuthentication]
+	permission_classes=[]
+
+	def post(sefl,request,format=None):
+
+		worker=Worker.objects.get(id=request.user.id)
+		data=request.data.get("type")
+		if data=="online":
+			worker.online=True
+			worker.save()
+		elif data=="offline":
+			worker.online=False
+			worker.save()
+
+		return Response({
+			"data":WorkerSerializer(worker).data
+			},status=status.HTTP_200_OK)
+
+class UpdateTicket(APIView):
+
+	authentication_classes=[WorkerAuthentication]
+	permission_classes=[]
+
+	def post(self,request,format=None):
+		data=request.data.get("type")
+		ticket_id=request.data.get("ticket_id")
+
+		if data=="START":
+			customer_ticket=CustomerTicket.objects.get(id=ticket_id)
+			customer_ticket.started=True
+			customer_ticket.start_time=datetime.datetime.now().time()
+			customer_ticket.save()
+
+		elif data=="END":
+			customer_ticket=CustomerTicket.objects.get(id=ticket_id)
+			customer_ticket.ended=True
+			customer_ticket.end_time=datetime.datetime.now().time()
+
+		return Response({
+			"Data":"Updated Successfully"
+			},status=status.HTTP_200_OK)
+
+
+
 
 class WorkerLogin(APIView):
 
@@ -112,6 +157,7 @@ class GetTodayWorks(APIView):
 		customer_ticket_serializer=CustomerTicketSerializer(customer_tickets_for_today,many=True)
 
 		return Response({
+			"online":request.user.online,
 			"Data":customer_ticket_serializer.data,
 			"status_data":count_data
 			},status=status.HTTP_200_OK)
