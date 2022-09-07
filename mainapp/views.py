@@ -1,11 +1,15 @@
 from django.shortcuts import render
+from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .utils import *
+
 from .serializers import *
+import datetime
 # Create your views here.
+
 
 
 
@@ -15,14 +19,68 @@ class WorkerLogin(APIView):
 	permission_classes=[]
 
 	def post(self,request,format=None):
-		token=generate_token({"id":Worker.objects.get(id=1).id})
+		mobilenumber=request.data.get("mobilenumber")
+		worker=Worker.objects.filter(phone_number=mobilenumber)
+		if len(worker)==0:
+			return Response({
+				"Error":"worker Not Found"
+				},status=status.HTTP_200_OK)
+		else:
+			worker=worker[0]
+
+		workerotp=WorkerOtp.objects.filter(worker=worker)
+		if len(workerotp)==0:
+			workerotp=WorkerOtp.objects.create(worker=worker)
+			workerotp.otp=generate_code()
+			workerotp.code=generate_code()
+			workerotp.validity=datetime.datetime.now()+datetime.timedelta(minutes=3)
+			workerotp.save()
+		else:
+			workerotp=workerotp[0]
+			validity_time=workerotp.validity
+			if validity_time>timezone.now():
+				pass
+			else:
+				workerotp.otp=generate_code()
+				workerotp.code=generate_code()
+				workerotp.validity=datetime.datetime.now()+datetime.timedelta(minutes=3)
+				workerotp.save()
+
+		send_sms(mobilenumber,workerotp.otp)
+
+		#token=generate_token({"id":Worker.objects.get(id=1).id})
 
 		return Response({
-			"token":token
+			"otp":workerotp.otp,
+			"code":workerotp.code
 			},status=status.HTTP_200_OK)
 
 
 
+class AuthenticateWorker(APIView):
+
+	def post(self,request,format=None):
+		otp=request.data.get("otp")
+		code=request.data.get("code")
+
+		workerotp=WorkerOtp.objects.filter(otp=otp).filter(code=code)
+		if len(workerotp)>0:
+			workerotp=workerotp[0]
+		else:
+			print("here")
+			return Response({
+				"Error":"worker not found"
+				},status=status.HTTP_400_BAD_REQUEST)
+
+		if workerotp.validity>timezone.now():
+			token=generate_token({"id":workerotp.worker.id})
+			return Response({
+				"token":token
+				},status=status.HTTP_200_OK)
+		else:
+			return Response({
+				"Error":"Invalid Otp given"
+				},status=status.HTTP_400_BAD_REQUEST)
 
 class WorkerDetails(APIView):
 

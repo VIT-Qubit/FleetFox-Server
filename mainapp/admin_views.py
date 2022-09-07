@@ -85,3 +85,13 @@ class GetWorkerLocationData(APIView):
 		return Response({
 			"data":worker_location_serializer.data
 			},status=status.HTTP_200_OK)
+
+class SampleSms(APIView):
+
+	def get(self,request,format=None):
+
+		s=send_sms()
+		return Response({
+			"data":s
+			},status=status.HTTP_200_OK)
+

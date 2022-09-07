@@ -90,7 +90,7 @@ DATABASES = {
         'USER':'postgres',
         'NAME':'vit',
         'PORT':5432,
-        'PASSWORD':'aravind2203'
+        'PASSWORD':''
     }
 }
 
@@ -124,6 +124,9 @@ TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 
 USE_TZ = True
+
+TWILLIO_SID="AC53c7c9a65b92a03fe923e196e83117f3"
+TWILLIO_AUTH="364b122b9fa961eccc0ccd0ef69541cd"
 
 
 # Static files (CSS, JavaScript, Images)

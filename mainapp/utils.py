@@ -6,6 +6,9 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 import datetime,pytz
 from .models import *
+from twilio.rest import Client
+import random
+
 def generate_token(data):
 	return jwt.encode(data,settings.SECRET_KEY,algorithm="HS256")
 
@@ -57,3 +60,19 @@ def get_current_date():
 
 def convert_date(date):
 	return datetime.date(year=int(date[0]),month=int(date[1]),day=int(date[2]))
+
+def send_sms(number,code):
+	client=Client(settings.TWILLIO_SID,settings.TWILLIO_AUTH)
+
+	message=client.messages.create(
+		from_='+14014094605',
+		body=f'code-{code}',
+		to=f'+91{number}')
+
+	return message.sid
+
+def generate_code():
+	string_=[str(random.randint(0,9)) for _ in range(5)]
+	return "".join(string_)
+
+

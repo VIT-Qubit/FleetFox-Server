@@ -33,6 +33,13 @@ class WorkerLiveLocation(models.Model):
 	date=models.DateField()
 
 
+class WorkerOtp(models.Model):
+	worker=models.ForeignKey(Worker,on_delete=models.CASCADE)
+	otp=models.CharField(max_length=5,null=True,blank=True)
+	code=models.CharField(max_length=5,null=True,blank=True)
+	validity=models.DateTimeField(null=True,blank=True)
+
+
 
 
 class WorkerLocationDetails(models.Model):
