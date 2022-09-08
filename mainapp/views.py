@@ -37,6 +37,7 @@ class UpdateTicket(APIView):
 	permission_classes=[]
 
 	def post(self,request,format=None):
+		print(request.data)
 		data=request.data.get("type")
 		ticket_id=request.data.get("ticket_id")
 
@@ -49,7 +50,9 @@ class UpdateTicket(APIView):
 		elif data=="END":
 			customer_ticket=CustomerTicket.objects.get(id=ticket_id)
 			customer_ticket.ended=True
+			customer_ticket.completed=True
 			customer_ticket.end_time=datetime.datetime.now().time()
+			customer_ticket.save()
 
 		return Response({-
 			"Data":"Updated Successfully"
@@ -193,7 +196,7 @@ class GetAllWorks(APIView):
 	def get(self,request,format=None):
 
 		count_data={}
-		customer_tickets_for_today=CustomerTicket.objects.filter(worker_id=request.user).filter(completed=False).order_by('-service_date')
+		customer_tickets_for_today=CustomerTicket.objects.filter(worker_id=request.user).order_by('-service_date')
 		count_data["total"]=len(CustomerTicket.objects.filter(worker_id=request.user).order_by('-service_date'))
 		count_data["remaining"]=len(CustomerTicket.objects.filter(worker_id=request.user).filter(completed=False).order_by('-service_date'))
 		count_data["completed"]=count_data["total"]-count_data["remaining"]
