@@ -164,6 +164,30 @@ class GetTodayWorks(APIView):
 			},status=status.HTTP_200_OK)
 
 
+class GetAllWorks(APIView):
+
+	authentication_classes=[WorkerAuthentication]
+	permission_classes=[]
+
+	def get(self,request,format=None):
+
+		count_data={}
+		customer_tickets_for_today=CustomerTicket.objects.filter(worker_id=request.user).filter(completed=False).order_by('-service_date')
+		count_data["total"]=len(CustomerTicket.objects.filter(worker_id=request.user).order_by('-service_date'))
+		count_data["remaining"]=len(CustomerTicket.objects.filter(worker_id=request.user).filter(completed=False).order_by('-service_date'))
+		count_data["completed"]=count_data["total"]-count_data["remaining"]
+		customer_ticket_not_completed=CustomerTicket.objects.filter()
+
+		customer_ticket_serializer=CustomerTicketSerializer(customer_tickets_for_today,many=True)
+
+		return Response({
+			"online":request.user.online,
+			"Data":customer_ticket_serializer.data,
+			"status_data":count_data
+			},status=status.HTTP_200_OK)
+
+
+
 class UpdateLocationWorker(APIView):
 
 	authentication_classes=[WorkerAuthentication]
