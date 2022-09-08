@@ -9,6 +9,7 @@ urlpatterns = [
     path('authenticate-worker',AuthenticateWorker.as_view()),
     path('get-worker-data',WorkerDetails.as_view()),
     path('get-today-works',GetTodayWorks.as_view()),
+    path('get-all-works',GetAllWorks.as_view()),
     path('complete-task',CompleteTask.as_view()),
     path('update-worker-location-live',UpdateLocationWorker.as_view()),
     path('update-ticket',UpdateTicket.as_view()),
