@@ -57,6 +57,27 @@ class UpdateTicket(APIView):
 
 
 
+class GetTicketDetails(APIView):
+
+	authentication_classes=[WorkerAuthentication]
+	permission_classes=[]
+
+	def get(self,request,format=None):
+		ticket_id=request.query_params.get("ticket_id")
+		print(ticket_id)
+		customer_ticket=CustomerTicket.objects.filter(id=ticket_id)
+		if len(customer_ticket)>0:
+			customer_ticket=customer_ticket[0]
+		else:
+			return Response({
+				"error":"Customer Ticket is not found"
+				},status=status.HTTP_404_NOT_FOUND)
+
+		customer_ticket_serializer=CustomerTicketSerializer(customer_ticket)
+		return Response({
+			"data":customer_ticket_serializer.data
+			},status=status.HTTP_200_OK)
+
 
 class WorkerLogin(APIView):
 
@@ -201,6 +222,7 @@ class UpdateLocationWorker(APIView):
 		return Response({
 			"msg":"ok"
 			},status=status.HTTP_200_OK)
+
 
 class CompleteTask(APIView):
 

@@ -13,6 +13,7 @@ urlpatterns = [
     path('update-worker-location-live',UpdateLocationWorker.as_view()),
     path('update-ticket',UpdateTicket.as_view()),
     path('update-status',UpdateStatus.as_view()),
+    path('get-ticket-details',GetTicketDetails.as_view()),
 
     #admin-urls
     path('get-worker-live-location',GetWorkerLocationDetails.as_view()),
