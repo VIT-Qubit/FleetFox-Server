@@ -10,7 +10,8 @@ urlpatterns = [
     path('get-today-works',GetTodayWorks.as_view()),
     path('complete-task',CompleteTask.as_view()),
     path('update-worker-location-live',UpdateLocationWorker.as_view()),
-    path('sample-sms',SampleSms.as_view()),
+    path('update-ticket',UpdateTicket.as_view()),
+    path('update-status',UpdateStatus.as_view()),
 
     #admin-urls
     path('get-worker-live-location',GetWorkerLocationDetails.as_view()),
