@@ -130,9 +130,10 @@ USE_I18N = True
 USE_TZ = True
 
 TWILLIO_SID="AC53c7c9a65b92a03fe923e196e83117f3"
-TWILLIO_AUTH="364b122b9fa961eccc0ccd0ef69541cd"
+TWILLIO_AUTH="364b122b9fa961eccc0ccd0ef69541cd" 
 
 
+AZURE_SUBSCRIPTION_KEY = 'lH4klHHUVJo_XM-yQOeyiBYHtIchIcynlS5oFPa8ewA'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 

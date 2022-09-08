@@ -51,7 +51,7 @@ class UpdateTicket(APIView):
 			customer_ticket.ended=True
 			customer_ticket.end_time=datetime.datetime.now().time()
 
-		return Response({
+		return Response({-
 			"Data":"Updated Successfully"
 			},status=status.HTTP_200_OK)
 
@@ -113,7 +113,7 @@ class WorkerLogin(APIView):
 				workerotp.validity=datetime.datetime.now()+datetime.timedelta(minutes=3)
 				workerotp.save()
 
-		#send_sms(mobilenumber,workerotp.otp)
+		send_sms(mobilenumber,workerotp.otp)
 
 		#token=generate_token({"id":Worker.objects.get(id=1).id})
 		print("OTP ---- ",workerotp.otp)

@@ -68,7 +68,7 @@ def send_sms(number,code):
 		from_='+14014094605',
 		body=f'code-{code}',
 		to=f'+91{number}')
-
+	print(message.sid)
 	return message.sid
 
 def generate_code():

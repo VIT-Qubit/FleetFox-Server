@@ -75,7 +75,7 @@ class GetCustomerTickets(APIView):
 
 
 class GetWorkerLocationData(APIView):
-	
+
 
 	def get(self,request,format=None):
 
@@ -99,3 +99,22 @@ class GetWorkerLocationData(APIView):
 			},status=status.HTTP_200_OK)
 
 
+
+def calculatedistance(start,end):
+    subscriptionkey = settings.AZURE_SUBSCRIPTION_KEY
+    lat1 = start[0]
+    long1 = start[1]
+    lat2 = end[0]
+    long2 = end[1] 
+    url = f"https://atlas.microsoft.com/route/directions/json?subscription-key={subscriptionkey}&api-version=1.0&query={lat1},{long1}:{lat2},{long2}"
+    response = requests.get(url=url)
+    data = response.json()
+    statuscode = response.status_code
+    if statuscode == 200:
+        '''Convert the time in mins from secs'''
+        traveltime = data['routes'][0]['summary']['travelTimeInSeconds']
+        trafficdelay = data['routes'][0]['summary']['trafficDelayInSeconds']
+        time = (traveltime + trafficdelay)/60
+        return math.ceil(time)
+    else:
+        return False
