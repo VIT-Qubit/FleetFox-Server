@@ -214,7 +214,7 @@ class CompleteTask(APIView):
 	def post(self,request,format=None):
 
 		"""
-
+	
 			"customer_id":{
 				
 				"customer_id":"stirng"

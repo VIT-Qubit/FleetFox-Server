@@ -75,7 +75,7 @@ class GetCustomerTickets(APIView):
 
 
 class GetWorkerLocationData(APIView):
-
+	
 
 	def get(self,request,format=None):
 

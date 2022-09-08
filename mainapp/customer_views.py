@@ -26,4 +26,17 @@ class Register(APIView):
 			},status=status.HTTP_200_OK)
 
 class CreateTicket(APIView):
-	pass
+
+	def post(self,request,format=None):
+		customer=Customer.objects.get(id=1)
+
+		ticket_type=request.data.get("type")
+		description=request.data.get("description")
+		reasong=request.data.get("reason","")
+
+		Customer_ticket=CustomerTicket.objects.create(customer_id=customer,ticket_type=ticket_type,description=description,reason=reason)
+		return Response({
+			"Msg":"Your ticket has been created Successfully"
+			},status=status.HTTP_200_OK)
+
+

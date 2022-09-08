@@ -2,6 +2,7 @@
 from django.urls import path
 from .views import *
 from .admin_views import *
+from .customer_views import *
 
 urlpatterns = [
     path('worker-login',WorkerLogin.as_view()),
@@ -16,5 +17,10 @@ urlpatterns = [
     #admin-urls
     path('get-worker-live-location',GetWorkerLocationDetails.as_view()),
     path('assign-worker',AssignWorker.as_view()),
-    path('get-worker-distance-data',GetWorkerLocationData.as_view())
+    path('get-worker-distance-data',GetWorkerLocationData.as_view()),
+
+    #customer-urls
+    path('customer-register',Register.as_view()),
+    path('create-ticket',CreateTicket.as_view())
+
 ]

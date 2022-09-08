@@ -13,6 +13,16 @@ class CustomerTicketSerializer(ModelSerializer):
 		model=CustomerTicket
 		fields='__all__'
 
+	def __init__(self,*args,**kwargs):
+		super(CustomerTicketSerializer,self).__init__(*args,**kwargs)
+		request=self.context.get("request")
+
+		if request and request.method=="POST":
+			self.Meta.depth=0
+		elif request and request.method =="PUT":
+			self.Meta.depth=0
+		else:
+			self.Meta.depth=4
 
 class WorkerLocationDetailsSerializer(ModelSerializer):
 	class Meta:
