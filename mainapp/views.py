@@ -86,6 +86,7 @@ class WorkerLogin(APIView):
 
 	def post(self,request,format=None):
 		mobilenumber=request.data.get("mobilenumber")
+		print(mobilenumber)
 		worker=Worker.objects.filter(phone_number=mobilenumber)
 		if len(worker)==0:
 			return Response({
@@ -112,10 +113,10 @@ class WorkerLogin(APIView):
 				workerotp.validity=datetime.datetime.now()+datetime.timedelta(minutes=3)
 				workerotp.save()
 
-		send_sms(mobilenumber,workerotp.otp)
+		#send_sms(mobilenumber,workerotp.otp)
 
 		#token=generate_token({"id":Worker.objects.get(id=1).id})
-
+		print("OTP ---- ",workerotp.otp)
 		return Response({
 			"otp":workerotp.otp,
 			"code":workerotp.code
